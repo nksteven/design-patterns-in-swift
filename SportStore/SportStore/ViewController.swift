@@ -23,7 +23,6 @@ class ViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var totalStockLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    let logger = Logger<Product>(callback: handler)
     var products = [
         Product(name:"Kayak", description:"A boat for one person", category:"Watersports", price:275.0, stockLevel:10),
         Product(name:"Lifejacket", description:"Protective and fashionable", category:"Watersports", price:48.95, stockLevel:14),
@@ -85,7 +84,7 @@ class ViewController: UIViewController, UITableViewDataSource {
                         }
                         cell.stockStepper.value = Double(product.stockLevel)
                         cell.stockField.text = String(product.stockLevel)
-                        logger.log(item: product)
+                        productLogger.log(item: product)
                     }
                     break
                 }
