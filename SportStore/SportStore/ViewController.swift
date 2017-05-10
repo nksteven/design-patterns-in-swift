@@ -63,10 +63,14 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     func displayStockTotal() {
-        let stockTotal:(Int, Double) = productStore.products.reduce((0, 0.0), {(totals, product) -> (Int, Double) in return (totals.0 + product.stockLevel,
+        let finalTotals:(Int, Double) = productStore.products.reduce((0, 0.0), {(totals, product) -> (Int, Double) in return (totals.0 + product.stockLevel,
                                totals.1 + product.stockValue)
         })
-        totalStockLabel.text = "\(stockTotal.0) Products in Stock. " + "Total Value: \(Utils.currencyStringFromNumber(number: stockTotal.1))"
+        
+        let factory = StockTotalFactory.getFactory(curr: StockTotalFactory.Currency.GBP)
+        let totalAmount = factory.converter?.convertTotal(total: finalTotals.1)
+        let formatted = factory.formatter?.formatTotal(total: totalAmount!)
+        totalStockLabel.text = "\(finalTotals.0) Products in Stock. " + "Total Value: \(formatted!)"
     }
     
     @IBAction func stockLevelDidChange(_ sender: Any) {
